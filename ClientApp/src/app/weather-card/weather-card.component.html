@@ -1,4 +1,4 @@
-<section class="weather__card" (click)="openDetails()" [ngClass]="{'weather__card-dark': darkMode}">
+<section class="weather__card">
   <!-- TODO: make the city name dynamic -->
   <span class="city-name__text">Paris</span>
   <div class="weather-icon__container" [ngSwitch]="true">
@@ -18,11 +18,13 @@
 
     <svg *ngSwitchCase="condition === 'Fog'"></svg>
   </div>
+
   <div class="temperature-text__container">
     <span class="temperature__text">{{ currentTemp }}</span>
     <span class="temperature-metric__text">°</span>
     <span class="weather-condition__text">{{ condition }}</span>
   </div>
+
   <section class="min-max__container">
     <div class="min__container">
       <svg class="min-arrow__icon" viewBox="188.5 807 21 21">
