@@ -11,7 +11,6 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { WeatherCardComponent } from './weather-card/weather-card.component';
 import { AddCardComponent } from './add-card/add-card.component';
-import { CardDetailsComponent } from './card-details/card-details.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { CardDetailsComponent } from './card-details/card-details.component';
     FetchDataComponent,
     WeatherCardComponent,
     AddCardComponent,
-    CardDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
