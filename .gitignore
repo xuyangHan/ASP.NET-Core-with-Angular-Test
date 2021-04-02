@@ -229,3 +229,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+
+ClientApp/src/environments/environment.ts
+ClientApp/src/environments/environment.prod.ts
