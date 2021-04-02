@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { WeatherCardComponent } from './weather-card/weather-card.component';
 import { AddCardComponent } from './add-card/add-card.component';
+import { WeatherService } from './weather.service'
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { AddCardComponent } from './add-card/add-card.component';
       { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
-  providers: [],
+  providers: [WeatherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
