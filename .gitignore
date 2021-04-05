@@ -231,5 +231,5 @@ _Pvt_Extensions
 .fake/
 
 
-ClientApp/src/environments/environment.ts
-ClientApp/src/environments/environment.prod.ts
+ASP.NET Core with Angular Test/ClientApp/src/environments/environment.ts
+ASP.NET Core with Angular Test/ClientApp/src/environments/environment.prod.ts
