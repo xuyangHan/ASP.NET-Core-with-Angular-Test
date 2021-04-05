@@ -20,8 +20,8 @@ export class WeatherCardComponent{
 
   constructor(public weather: WeatherService) {
 
-    this.cityName = 'Paris';
-    this.weather.getWeather('Paris')
+    this.cityName = 'Ottawa';
+    this.weather.getWeather('Ottawa')
       .pipe(first())
       .subscribe((payload) => {
         this.state = payload.weather[0].main;
@@ -32,6 +32,25 @@ export class WeatherCardComponent{
           this.errorMessage = '';
         }, 3000);
       });
+
+    this.weather.getForecast('Ottawa')
+      .pipe(first())
+      .subscribe((payload) => {
+        this.maxTemp = Math.round(payload[0].main.temp);
+        this.minTemp = Math.round(payload[0].main.temp);
+        for (const res of payload) {
+          if (new Date().toLocaleDateString('en-GB') === new Date(res.dt_txt).toLocaleDateString('en-GB')) {
+            this.maxTemp = res.main.temp > this.maxTemp ? Math.round(res.main.temp) : this.maxTemp;
+            this.minTemp = res.main.temp < this.minTemp ? Math.round(res.main.temp) : this.minTemp;
+          }
+        }
+      }, (err) => {
+        this.errorMessage = err.error.message;
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 3000);
+      });
+
   }
 
 }

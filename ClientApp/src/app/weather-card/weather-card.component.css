@@ -12,16 +12,11 @@ Weather Card Styling
   padding: 2rem;
   margin: 2rem;
   width: 19rem;
-  height: 30rem;
+  height: 35rem;
   cursor: pointer;
   background-color: white;
   border-radius: 1.75rem;
-  animation: 1.25s ease-in-out 0ms 1 fadein;
-}
-
-.weather__card-dark {
-  background: linear-gradient(to bottom, #711B86, #00057A);
-  color: white;
+  animation: slideup 1s ease-in-out, fadein 1.25s ease-in-out 0ms 1;
 }
 
 .city-name__text {
@@ -103,3 +98,4 @@ Weather Card Styling
   .weather-icon__container > svg {
     width: 10rem;
   }
+
