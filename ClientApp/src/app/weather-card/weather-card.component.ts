@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { WeatherService } from '../weather.service';
-import { first } from 'rxjs/operators';
+import { first, min } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-weather-card',
@@ -8,49 +9,52 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./weather-card.component.css']
 })
 export class WeatherCardComponent{
-  citesWeather: Object;
-  darkMode: boolean;
-  state: string;
-  temp: number;
-  maxTemp: number;
-  minTemp: number;
-  errorMessage: string;
-  cityName;
-  cityAdded = false;  
+  Cities: City[] = [];
+  state: string[] = [];
+  temp: number[] = [];
+  maxTemp: number[] = [];
+  minTemp: number[] = [];
+  test: number[] = [];
 
-  constructor(public weather: WeatherService) {
+  constructor(public weather: WeatherService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    let state_arr: string[] = [];
+    let temp_arr: number[] = [];
+    let maxTemp_arr: number[] = [];
+    let minTemp_arr: number[] = [];
+    let test_arr: number[] = [];
 
-    this.cityName = 'Ottawa';
-    this.weather.getWeather('Ottawa')
-      .pipe(first())
-      .subscribe((payload) => {
-        this.state = payload.weather[0].main;
-        this.temp = Math.ceil(payload.main.temp);
-      }, (err) => {
-        this.errorMessage = err.error.message;
-        setTimeout(() => {
-          this.errorMessage = '';
-        }, 3000);
-      });
+    http.get<City[]>(baseUrl + 'api/Cities').subscribe(result => {
+      this.Cities = result;
+      for (let i = 0; i < result.length; i++) {
+        this.weather.getWeather(result[i]['name'])
+          .pipe(first())
+          .subscribe((payload) => {
+            state_arr.push(payload.weather[0].main);
+            temp_arr.push(payload.main.temp);
+            maxTemp_arr.push(Math.ceil(payload.main.temp_max));
+            minTemp_arr.push(Math.floor(payload.main.temp_min));
+            test_arr.push(i)
+          }, error => console.error(error));
+      }
+    }, error => console.error(error));
 
-    this.weather.getForecast('Ottawa')
-      .pipe(first())
-      .subscribe((payload) => {
-        this.maxTemp = Math.round(payload[0].main.temp);
-        this.minTemp = Math.round(payload[0].main.temp);
-        for (const res of payload) {
-          if (new Date().toLocaleDateString('en-GB') === new Date(res.dt_txt).toLocaleDateString('en-GB')) {
-            this.maxTemp = res.main.temp > this.maxTemp ? Math.round(res.main.temp) : this.maxTemp;
-            this.minTemp = res.main.temp < this.minTemp ? Math.round(res.main.temp) : this.minTemp;
-          }
-        }
-      }, (err) => {
-        this.errorMessage = err.error.message;
-        setTimeout(() => {
-          this.errorMessage = '';
-        }, 3000);
-      });
+    
+    this.state = state_arr;
+    
+    this.temp = temp_arr;
+    
+    this.maxTemp = maxTemp_arr;
+    
+    this.minTemp = minTemp_arr;
 
+    this.test = test_arr;
   }
+  
+}  
 
+
+interface City {
+  Id: Number;
+  citesWeather: Object;
+  Name: string;
 }
